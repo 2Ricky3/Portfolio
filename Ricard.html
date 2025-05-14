@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ricard Oosthuizen Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Quicksand:wght@300..700&family=Tagesschrift&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+  <style>
+    :root {
+      --main-bg: #1e1b3a;
+      --accent: #dec0fc;
+      --accent-light: #c084fc;
+      --text-light: #ffffff;
+      --text-muted: #c4b5fd;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Quicksand", sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--main-bg);
+      color: var(--text-light);
+      padding: 2rem 10% 0 10%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .wave-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .wave-bg svg {
+      width: 200%;
+      height: auto;
+      animation: waveMove 30s infinite linear;
+      opacity: 0.08;
+    }
+
+    .wave-bg2 {
+      z-index: -7;
+    }
+
+    .wave-bg2 svg {
+      opacity: 0.15;
+      animation: waveMoveFast 15s linear infinite;
+    }
+
+    @keyframes waveMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-75%); }
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background-color: var(--main-bg);
+      padding: 1rem 10%;
+      width: 100%;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    nav a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s, border-bottom 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    section {
+      padding: 4rem 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1, h2, p {
+      opacity: 0;
+      transform: translateX(-50px);
+      animation: swipeInFromLeft 1s forwards;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      animation-delay: 0.2s;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      animation-delay: 0.4s;
+    }
+
+    p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      animation-delay: 0.6s;
+    }
+
+    @keyframes swipeInFromLeft {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .skills-controls {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      position: relative;
+      background: transparent;
+      color: var(--text-light);
+      padding: 0.75rem 1.5rem;
+      border: 2px solid var(--accent);
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .filter-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(45deg, var(--accent), var(--accent-light));
+      transition: width 0.3s ease;
+      z-index: -1;
+    }
+
+    .filter-btn:hover::before,
+    .filter-btn.active::before {
+      width: 100%;
+    }
+
+    .filter-btn:hover {
+      color: rgb(77, 77, 77);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+    }
+
+    .filter-btn.active {
+      color: white;
+      background: linear-gradient(45deg, var(--accent), var(--accent-light));
+      box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+.card {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
+}
+
+.card .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card i {
+  font-size: 3rem;
+  color: var(--accent);
+}
+
+.card .progress-container {
+  margin-top: 1rem;
+}
+
+.card .percentage {
+  margin-top: 0.5rem;
+}
+
+
+    .progress {
+      width: 100%;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      height: 10px;
+      margin-top: 5px;
+    }
+
+    .bar {
+      height: 100%;
+      background-color: var(--accent);
+      width: 0;
+      transition: width 1s ease-in-out;
+    }
+
+
+    @keyframes cardReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      width: 100%;
+      padding: 2rem 10%;
+      background-color: var(--main-bg);
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 3rem;
+    }
+
+    footer a, footer span {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    footer i {
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .contact-item i {
+      color: var(--accent);
+      font-size: 1.5rem;
+    }
+    .experience-section {
+  padding: 4rem 0;
+  width: 100%;
+  text-align: center;
+}
+
+.experience-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.experience-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  cursor: pointer;
+}
+
+.experience-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
+}
+
+.experience-card h3 {
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.experience-card p {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 5px;
+  justify-content: center;
+}
+
+.percentage {
+  color: var(--accent);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <div class="wave-bg">
+    <svg viewBox="0 0 1200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,100 C300,200 900,0 1200,100 L1200,200 L0,200 Z" fill="#a855f7" />
+    </svg>
+  </div>
+  <div class="wave-bg wave-bg2">
+    <svg viewBox="0 0 1200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,100 C300,200 900,0 1200,100 L1200,200 L0,200 Z" fill="#c084fc" />
+    </svg>
+  </div>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+   
+  </nav>
+
+  <section id="home">
+    <h1>Ricard Oosthuizen</h1>
+    <h2>Bachelor's in Web Development & UX/UI Design</h2>
+    <p>I am a 21-year-old web developer and UX/UI designer with freelance experience creating and designing websites for companies while studying. I'm a hard worker and a team player who thrives in group projects and brings creative design ideas to life.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="skills-controls">
+      <button class="filter-btn active" data-sort="desc">Best to Weakest</button>
+      <button class="filter-btn" data-sort="asc">Weakest to Best</button>
+      <button class="filter-btn" data-sort="alpha">Alphabetical</button>
+    </div>
+    <div class="skills" id="skills-container">
+      <!-- Cards will go here dynamically -->
+    </div>
+  </section>
+
+
+<section id="experience" class="experience-section">
+  <h2>Experience</h2>
+  <div class="experience-cards">
+    <div class="experience-card">
+      <h3>Bartender – Loftus</h3>
+      <p>2024 – Present</p>
+      <p>Worked at events and game days, engaging with customers and handling bar operations under pressure.</p>
+    </div>
+    <div class="experience-card">
+      <h3>Freelance UX/UI Designer</h3>
+      <p>2023 – Present</p>
+      <p>Designed and developed intuitive user interfaces for small businesses and startups. Collaborated with clients to bring ideas to life.</p>
+    </div>
+  </div>
+</section>
+
+  <footer id="contact">
+    <span><i class="fas fa-phone"></i>071 868 6362</span>
+    <span><i class="fas fa-envelope"></i>oosthuizenricard@gmail.com</span>
+    <a href="https://github.com/2Ricky3" target="_blank"><i class="fab fa-github"></i>Ricard Oosthuizen</a>
+    <a href="#contact"><i class="fas fa-paper-plane"></i>Contact Me</a>
+  </footer>
+
+  <script>
+    const skillsData = [
+      { name: 'React', icon: 'fab fa-react', skill: 65 },
+      { name: 'JavaScript', icon: 'fab fa-js-square', skill: 75 },
+      { name: 'HTML5', icon: 'fab fa-html5', skill: 80 },
+      { name: 'CSS3', icon: 'fab fa-css3-alt', skill: 82 },
+      { name: 'AWS', icon: 'fab fa-aws', skill: 55 },
+      { name: 'PHP', icon: 'fab fa-php', skill: 78 },
+      { name: 'MySQL', icon: 'fas fa-database', skill: 78 },
+      { name: 'C#', icon: 'fas fa-code', skill: 40 },
+      { name: 'Figma', icon: 'fab fa-figma', skill: 89 },
+      { name: 'Canva', icon: 'fas fa-file', skill: 85 },
+      { name: 'Word', icon: 'fas fa-file-word', skill: 80 },
+      { name: 'Excel', icon: 'fas fa-file-excel', skill: 75 },
+      { name: 'Adobe Creative Cloud', icon: 'fas fa-file', skill: 75 },
+      { name: 'PostgreSQL', icon: 'fas fa-database', skill: 55 }, 
+      { name: 'Prototyping', icon: 'fas fa-pencil-ruler', skill: 90 },
+     { name: 'Informational Architecture', icon: 'fas fa-sitemap', skill: 85 }
+    ];
+
+    function renderSkills(data) {
+      const container = document.getElementById('skills-container');
+      container.innerHTML = '';
+      
+      data.forEach(({ name, icon, skill }, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.setAttribute('data-skill', skill);
+        card.style.animationDelay = `${index * 0.05}s`;
+        card.innerHTML = `
+          <span></span>
+          <div class="content">
+            <i class="${icon}"></i>${name}
+            <div class="progress-container">
+  <div class="progress">
+    <div class="bar" data-skill="${skill}" style="width: ${skill}%"></div>
+  </div>
+  <div class="percentage">${skill}%</div>
+</div>
+
+          </div>`;
+        container.appendChild(card);
+      });
+      
+      // Trigger animation
+      setTimeout(() => {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+          card.style.animation = 'cardReveal 0.5s forwards';
+        });
+      }, 50);
+    }
+
+    function sortSkills(type) {
+      let sorted = [...skillsData];
+      if (type === 'desc') sorted.sort((a, b) => b.skill - a.skill);
+      else if (type === 'asc') sorted.sort((a, b) => a.skill - b.skill);
+      else if (type === 'alpha') sorted.sort((a, b) => a.name.localeCompare(b.name));
+      renderSkills(sorted);
+      
+      // Update active button
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.sort === type) {
+          btn.classList.add('active');
+        }
+      });
+    }
+
+    // Add event listeners to filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sortSkills(btn.dataset.sort);
+      });
+    });
+
+    // Initial render
+    sortSkills('desc');
+
+    // Nav highlight on scroll
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll("nav a");
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        if (scrollY >= sectionTop) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href").includes(current)) {
+          link.classList.add("active");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
